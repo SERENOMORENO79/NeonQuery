@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeonQuery ✨</title>
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+    <section id="splashScreen" class="splash-screen">
+        <h1 class="splash-text">NeonQuery</h1>
+    </section>
+
+    <section id="loginSection" class="container hidden">
+        <h2>Inicia Sesión</h2>
+        <div class="form-group">
+            <label for="loginUsername">Usuario:</label>
+            <input type="text" id="loginUsername" placeholder="Tu nombre de usuario" required>
+        </div>
+        <div class="form-group">
+            <label for="loginPassword">Contraseña:</label>
+            <input type="password" id="loginPassword" placeholder="Tu contraseña" required>
+        </div>
+        <button onclick="loginUser()">Iniciar Sesión</button>
+        <p class="message hidden" id="loginMessage"></p>
+        <p>¿No tienes cuenta? <a href="#" onclick="showRegister()">Regístrate aquí</a></p>
+        <p>
+            <button onclick="showCreateSurvey()">Crear Nueva Encuesta</button>
+        </p>
+    </section>
+
+    <section id="registerSection" class="container hidden">
+        <h2>Regístrate</h2>
+        <div class="form-group">
+            <label for="registerUsername">Usuario:</label>
+            <input type="text" id="registerUsername" placeholder="Elige un nombre de usuario" required>
+        </div>
+        <div class="form-group">
+            <label for="registerEmail">Email:</label>
+            <input type="email" id="registerEmail" placeholder="Tu correo electrónico" required>
+        </div>
+        <div class="form-group">
+            <label for="registerPassword">Contraseña:</label>
+            <input type="password" id="registerPassword" placeholder="Crea una contraseña" required>
+        </div>
+        <button onclick="registerUser()">Registrarse</button>
+        <p class="message hidden" id="registerMessage"></p>
+        <p>¿Ya tienes cuenta? <a href="#" onclick="showLogin()">Inicia sesión</a></p>
+    </section>
+
+    <section id="surveySection" class="container hidden">
+        <h2>Bienvenido, <span id="loggedInUsername"></span></h2>
+        <p>Por favor, completa la siguiente encuesta.</p>
+        <form id="surveyForm">
+            <div class="form-group">
+                <label for="question1">1. ¿Qué tan satisfecho estás con nuestra plataforma?</label>
+                <select id="question1" required>
+                    <option value="">Selecciona una opción</option>
+                    <option value="Muy Satisfecho">Muy Satisfecho</option>
+                    <option value="Satisfecho">Satisfecho</option>
+                    <option value="Neutral">Neutral</option>
+                    <option value="Insatisfecho">Insatisfecho</option>
+                    <option value="Muy Insatisfecho">Muy Insatisfecho</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="question2">2. ¿Qué nuevas funciones te gustaría ver en el futuro?</label>
+                <textarea id="question2" rows="4" placeholder="Describe tus sugerencias aquí..." required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>3. ¿Con qué frecuencia utilizas la plataforma?</label>
+                <div>
+                    <input type="radio" id="daily" name="frequency" value="Diario" required>
+                    <label for="daily">Diario</label>
+                    <input type="radio" id="weekly" name="frequency" value="Semanal" required>
+                    <label for="weekly">Semanal</label>
+                    <input type="radio" id="monthly" name="frequency" value="Mensual" required>
+                    <label for="monthly">Mensual</label>
+                    <input type="radio" id="rarely" name="frequency" value="Rara vez" required>
+                    <label for="rarely">Rara vez</label>
+                </div>
+            </div>
+            <button type="submit">Enviar Encuesta</button>
+        </form>
+        <p class="message hidden" id="surveyMessage"></p>
+        <button onclick="downloadSurveyData()" class="download-button">Descargar Datos de Encuesta</button>
+        <p>
+            <button onclick="logoutUser()">Cerrar Sesión</button>
+            <button onclick="showCreateSurvey()">Crear Nueva Encuesta</button>
+            <button onclick="window.showSurveyList()">Ver Encuestas Disponibles</button>
+        </p>
+    </section>
+
+    <section id="createSurveySection" class="container hidden">
+        <h2>Crear Nueva Encuesta</h2>
+        <div class="form-group">
+            <label for="newSurveyTitle">Título de la Encuesta:</label>
+            <input type="text" id="newSurveyTitle" placeholder="Ej. Encuesta de Satisfacción del Cliente" required>
+        </div>
+
+        <div id="questionsContainer">
+            <div class="question-block" data-question-id="1">
+                <div class="form-group">
+                    <label for="questionText_1">Pregunta 1:</label>
+                    <input type="text" id="questionText_1" placeholder="Texto de la pregunta" required>
+                </div>
+                <div class="form-group">
+                    <label for="questionType_1">Tipo de Respuesta:</label>
+                    <select id="questionType_1" onchange="window.toggleOptions(this, 1)">
+                        <option value="text">Texto Corto</option>
+                        <option value="textarea">Texto Largo</option>
+                        <option value="radio">Múltiples Opciones (Radio)</option>
+                        <option value="select">Lista Desplegable (Select)</option>
+                    </select>
+                </div>
+                <div class="options-container hidden" id="optionsContainer_1">
+                    <label>Opciones (separadas por coma):</label>
+                    <input type="text" id="questionOptions_1" placeholder="Opción 1, Opción 2, Opción 3">
+                </div>
+                <button type="button" class="remove-question-button" onclick="window.removeQuestion(this)">Eliminar Pregunta</button>
+            </div>
+        </div>
+
+        <button type="button" onclick="window.addQuestionField()">Añadir Pregunta</button>
+        <button type="button" onclick="window.saveNewSurvey()">Guardar Encuesta</button>
+        <button type="button" onclick="window.showSurveyList()">Ver Encuestas Existentes</button>
+        <button type="button" onclick="window.showSurvey()">Volver a mi Encuesta</button>
+    </section>
+
+    <section id="surveyListSection" class="container hidden">
+        <h2>Encuestas Disponibles</h2>
+        <div id="surveysList">
+            <p>Cargando encuestas...</p>
+        </div>
+        <button type="button" onclick="window.showSurvey()">Volver a mi Encuesta</button>
+        <button type="button" onclick="window.showCreateSurvey()">Crear Nueva Encuesta</button>
+    </section>
+
+    <script src="Style.js"></script> 
+</body>
+</html>

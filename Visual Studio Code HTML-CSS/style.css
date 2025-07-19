@@ -1,0 +1,363 @@
+/* Importar fuente retro para el título "NeonQuery" */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* Variables CSS para colores neón */
+:root {
+    --bg-dark: #1a1a2e;
+    --neon-blue: #00e5ff;
+    --neon-purple: #ae00ff;
+    --neon-pink: #ff007f;
+    --text-light: #e0e0e0;
+    --glow-spread: 0 0 15px;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    min-height: 100vh; /* Asegura que el body tenga al menos la altura de la ventana */
+    position: relative; /* Necesario para los pseudo-elementos del aurora */
+    /* Eliminamos overflow: hidden; para permitir el scroll */
+}
+
+/* Efecto Aurora con pseudo-elementos */
+body::before,
+body::after {
+    content: '';
+    position: fixed; /* Mantiene el efecto fijo en la ventana de visualización */
+    border-radius: 50%;
+    filter: blur(80px); /* Ajusta el desenfoque para un efecto suave */
+    opacity: 0.6; /* Opacidad para que no sea demasiado intenso */
+    z-index: -1; /* Detrás de todo el contenido */
+    transition: transform 0.1s ease-out; /* Transición suave para el movimiento */
+}
+
+body::before {
+    background: radial-gradient(circle at center, var(--neon-blue), transparent 60%);
+    width: 600px;
+    height: 600px;
+    top: calc(50% - 300px + var(--aurora-before-y, 0px));
+    left: calc(50% - 300px + var(--aurora-before-x, 0px));
+}
+
+body::after {
+    background: radial-gradient(circle at center, var(--neon-purple), transparent 60%);
+    width: 700px;
+    height: 700px;
+    top: calc(50% - 350px + var(--aurora-after-y, 0px));
+    left: calc(50% - 350px + var(--aurora-after-x, 0px));
+}
+
+/* Splash Screen Styles */
+.splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--bg-dark); /* Fondo oscuro que ya usas */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Asegura que esté por encima de todo */
+    opacity: 1; /* Empieza visible */
+    transition: opacity 0.5s ease-out; /* Transición para desvanecerse */
+}
+
+/* Clase para ocultar la pantalla de carga después de la animación */
+.splash-screen.hidden {
+    opacity: 0;
+    pointer-events: none; /* Ignora eventos de ratón/toque */
+    visibility: hidden; /* Oculta completamente y quita del flujo */
+}
+
+.splash-text {
+    font-family: 'Press Start 2P', cursive; /* Fuente retro */
+    font-size: 6em; /* Tamaño grande para "NeonQuery" */
+    font-weight: bold;
+    color: black; /* Letras negras */
+    text-align: center;
+    /* Efecto de sombra neón alrededor de las letras negras */
+    text-shadow:
+        0 0 10px var(--neon-blue), /* Capa azul más cerca */
+        0 0 20px var(--neon-blue),
+        0 0 40px var(--neon-purple), /* Capa púrpura */
+        0 0 80px var(--neon-pink); /* Capa rosa más dispersa */
+
+    /* Animación de desvanecimiento inverso con salto */
+    opacity: 0; /* Empieza invisible */
+    transform: scale(0.5) translateY(100px); /* Empieza pequeño y abajo */
+    animation: neonJumpIn 2s forwards ease-out; /* Duración de la animación */
+    animation-delay: 0.5s; /* Retraso antes de que empiece la animación */
+}
+
+@keyframes neonJumpIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.5) translateY(100px);
+    }
+    50% {
+        opacity: 1; /* Se hace visible */
+        transform: scale(1.1) translateY(-20px); /* Salto hacia arriba (overshoot) */
+    }
+    75% {
+        transform: scale(0.95) translateY(5px); /* Pequeño rebote hacia abajo */
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0); /* Posición final */
+    }
+}
+
+
+/* Contenedor principal para todas las secciones */
+.container {
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo semi-transparente */
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: var(--glow-spread) var(--neon-pink),
+                var(--glow-spread) var(--neon-blue);
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+    border: 1px solid var(--neon-blue);
+    animation: fadeIn 1s ease-out;
+    margin: 50px auto; /* Añade margen superior/inferior y centra horizontalmente */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Clase para ocultar elementos con JavaScript */
+.hidden {
+    display: none !important; /* ¡Esta regla es CRUCIAL para que el JS funcione! */
+}
+
+h2 {
+    color: var(--neon-pink);
+    text-shadow: var(--glow-spread) var(--neon-pink);
+    margin-bottom: 25px;
+    font-size: 2.2em;
+    letter-spacing: 1px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--neon-blue);
+    font-weight: bold;
+    text-shadow: 0 0 5px var(--neon-blue);
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+textarea,
+select {
+    width: calc(100% - 20px);
+    padding: 12px;
+    border: 1px solid var(--neon-purple);
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.08);
+    color: var(--text-light);
+    font-size: 1em;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 10px var(--neon-pink);
+}
+
+textarea {
+    resize: vertical;
+}
+
+/* Estilos para los radios */
+input[type="radio"] {
+    margin-right: 8px;
+    accent-color: var(--neon-blue); /* Cambia el color del círculo del radio */
+}
+
+input[type="radio"] + label {
+    display: inline-block;
+    margin-right: 20px;
+    text-shadow: none; /* No queremos sombra de texto en cada label de radio */
+}
+
+
+button {
+    background-color: var(--neon-blue);
+    color: var(--bg-dark);
+    padding: 15px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 0 15px var(--neon-blue);
+    width: 100%; /* Ocupa todo el ancho */
+    max-width: 250px; /* Pero con un máximo */
+    box-sizing: border-box; /* Incluye padding y border en el ancho total */
+}
+
+button:hover {
+    background-color: #00ffff; /* Un azul más brillante al pasar el ratón */
+    box-shadow: 0 0 20px #00ffff;
+    transform: translateY(-2px);
+}
+
+a {
+    color: var(--neon-pink);
+    text-decoration: none;
+    transition: text-shadow 0.3s ease;
+}
+
+a:hover {
+    text-shadow: 0 0 10px var(--neon-pink);
+}
+
+.message {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 0.9em;
+    animation: fadeOut 5s forwards; /* Animación para que el mensaje desaparezca */
+}
+
+@keyframes fadeOut {
+    0% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; display: none; }
+}
+
+.message.success {
+    background-color: rgba(0, 255, 0, 0.2);
+    color: #00ff00;
+    border: 1px solid #00ff00;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+.message.error {
+    background-color: rgba(255, 0, 0, 0.2);
+    color: #ff0000;
+    border: 1px solid #ff0000;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+/* Estilos para el botón de descarga */
+.download-button {
+    background-color: var(--neon-purple);
+    box-shadow: 0 0 15px var(--neon-purple);
+}
+
+.download-button:hover {
+    background-color: #d000ff;
+    box-shadow: 0 0 20px #d000ff;
+}
+
+/* Estilos para la sección de creación de encuestas */
+#questionsContainer {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px dashed var(--neon-blue);
+    border-radius: 8px;
+    background-color: rgba(0, 229, 255, 0.05);
+}
+
+.question-block {
+    margin-bottom: 25px;
+    padding: 15px;
+    border: 1px solid rgba(174, 0, 255, 0.3);
+    border-radius: 10px;
+    background-color: rgba(174, 0, 255, 0.05);
+    position: relative;
+}
+
+.question-block:not(:last-child) {
+    border-bottom: 1px dashed var(--neon-purple);
+    margin-bottom: 25px;
+    padding-bottom: 25px;
+}
+
+.remove-question-button {
+    background-color: #cc0000;
+    box-shadow: 0 0 8px #cc0000;
+    margin-top: 15px;
+    width: auto;
+    padding: 8px 15px;
+    font-size: 0.9em;
+}
+
+.remove-question-button:hover {
+    background-color: #ff3333;
+    box-shadow: 0 0 12px #ff3333;
+}
+
+.options-container {
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    border-radius: 5px;
+    background-color: rgba(0, 229, 255, 0.03);
+}
+
+/* Estilos para la lista de encuestas */
+#surveysList {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.survey-item {
+    background-color: rgba(0, 229, 255, 0.05);
+    border: 1px solid var(--neon-blue);
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    text-align: left;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.survey-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 15px var(--neon-purple);
+}
+
+.survey-item h3 {
+    color: var(--neon-pink);
+    text-shadow: 0 0 5px var(--neon-pink);
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+}
+
+.survey-item p {
+    color: var(--text-light);
+    font-size: 0.9em;
+    margin-bottom: 10px;
+}
+
+.survey-item button {
+    margin-top: 10px;
+    margin-right: 10px;
+    padding: 8px 15px;
+    font-size: 0.85em;
+    width: auto;
+    /* Los demás estilos de botón general ya se aplican */
+}
